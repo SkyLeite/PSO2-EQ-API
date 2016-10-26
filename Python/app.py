@@ -1,9 +1,11 @@
-from flask import Flask, abort, make_response, jsonify
-from datetime import datetime
-from settings import *
-import twitter
 import json
 import re
+from datetime import datetime
+
+import twitter
+from flask import Flask, abort, make_response, jsonify
+
+from Python.settings import *
 
 api = twitter.Api(consumer_key=consumer_key,
                       consumer_secret=consumer_secret,
