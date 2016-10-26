@@ -1,13 +1,14 @@
 from flask import Flask, abort, make_response, jsonify
 from datetime import datetime
+from settings import *
 import twitter
 import json
 import re
 
-api = twitter.Api(consumer_key='KvfFTxjV015r0ptwqad7Qw21u',
-                      consumer_secret='Ju6F5wNkC7sOpeuBEoBy6Y9yLINpsWbTeTUb8tV4VysWib52A1',
-                      access_token_key='323253859-8XSNSi4odO796qnA0PnTKhNzH71coAt0GYzhzp1t',
-                      access_token_secret='pN7KMmzd9QUrzMtuZEOlbQdVDEnVogmJjhIx17Xx5WGVZ')
+api = twitter.Api(consumer_key=consumer_key,
+                      consumer_secret=consumer_secret,
+                      access_token_key=access_token_key,
+                      access_token_secret=access_token_secret)
 
 app = Flask(__name__)
 
