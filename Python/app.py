@@ -5,7 +5,7 @@ from datetime import datetime
 import twitter
 from flask import Flask, abort, make_response, jsonify
 
-from Python.settings import *
+from settings import *
 
 api = twitter.Api(consumer_key=consumer_key,
                       consumer_secret=consumer_secret,
@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 
 def translate(string):
-    with open('Python/eqs.json', encoding='utf8') as file:
+    with open('eqs.json', encoding='utf8') as file:
         file = json.load(file)
         for key in file:
             string = string.replace(key, file[key])
