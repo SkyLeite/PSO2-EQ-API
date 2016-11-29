@@ -58,11 +58,11 @@ def get_eq():
 
             elif shipEQ.match(line):
                 if int(shipEQ.match(line).group(1)) in ships:
-                    eqs.append({"ship" : shipEQ.match(line).group(1), "name" : translate(shipEQ.match(line).group(2).replace("　#PSO", ""))})
+                    eqs.append({"ship" : shipEQ.match(line).group(1), "name" : translate(shipEQ.match(line).group(2).replace("　#PSO2", ""))})
 
             elif preparation.match(line):
                 for x in ships:
-                    eqs.append({"ship" : "{:02d}".format(int(x)), "name" : translate(preparation.match(line).group(1).replace("　#PSO", ""))})
+                    eqs.append({"ship" : "{:02d}".format(int(x)), "name" : translate(preparation.match(line).group(1).replace("　#PSO2", ""))})
 
         jsTime = datetime.strptime(status.created_at, "%a %b %d %H:%M:%S %z %Y")
         output.append({"time": jsTime.strftime("%Y-%m-%d %H:%M:%S"), "eqs": eqs})
