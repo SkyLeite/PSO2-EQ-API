@@ -59,8 +59,6 @@ def get_eq():
             elif shipEQ.match(line):
                 if int(shipEQ.match(line).group(1)) in ships:
                     eqs.append({"ship" : shipEQ.match(line).group(1), "name" : translate(shipEQ.match(line).group(2).replace("　#PSO", ""))})
-                else:
-                    print(int(shipEQ.match(line).group(1)), " not in ", ships)
 
             elif preparation.match(line):
                 for x in ships:
@@ -72,4 +70,4 @@ def get_eq():
     return json.dumps(output, indent=4)
 
 if __name__ == '__main__':
-    app.run('127.0.0.1', port='5000')
+    app.run('0.0.0.0')
