@@ -72,4 +72,4 @@ def get_eq():
     return json.dumps(output, indent=4)
 
 if __name__ == '__main__':
-    app.run('127.0.0.1:5000')
+    app.run('127.0.0.1')
