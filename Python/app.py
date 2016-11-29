@@ -72,4 +72,4 @@ def get_eq():
     return json.dumps(output, indent=4)
 
 if __name__ == '__main__':
-    app.run('localhost')
+    app.run('localhost:5000')
