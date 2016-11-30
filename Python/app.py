@@ -26,7 +26,7 @@ def translate(string):
 
 @app.errorhandler(404)
 def not_found(error):
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    return make_response(jsonify({'error': 'Not found'}), 404), {'Content-Type': 'application/json; charset=utf-8'}
 
 
 @app.route('/eq/', methods=['GET'])
@@ -67,7 +67,7 @@ def get_eq():
         jsTime = datetime.strptime(status.created_at, "%a %b %d %H:%M:%S %z %Y")
         output.append({"time": jsTime.strftime("%Y-%m-%d %H:%M:%S"), "eqs": eqs})
 
-    return json.dumps(output, indent=4)
+    return json.dumps(output, indent=4), {'Content-Type': 'application/json; charset=utf-8'}
 
 if __name__ == '__main__':
-    app.run('0.0.0.0')
+    app.run('localhost')
