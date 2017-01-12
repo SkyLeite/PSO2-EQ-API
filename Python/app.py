@@ -70,4 +70,4 @@ def get_eq():
     return json.dumps(output, indent=4), {'Content-Type': 'application/json; charset=utf-8'}
 
 if __name__ == '__main__':
-    app.run('localhost')
+    app.run('localhost', debug=True)
