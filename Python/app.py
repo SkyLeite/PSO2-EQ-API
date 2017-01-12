@@ -58,14 +58,24 @@ def get_eq():
 
             elif shipEQ.match(line):
                 if int(shipEQ.match(line).group(1)) in ships:
-                    eqs.append({"ship" : shipEQ.match(line).group(1), "name" : translate(shipEQ.match(line).group(2).replace("　#PSO", ""))})
+                    eqname = translate(shipEQ.match(line).group(2).replace("　#PSO", ""))
+
+                    if eqname.startswith(" "):
+                        eqs.append({"ship" : shipEQ.match(line).group(1), "name" : eqname[1:]})
+                    else:
+                        eqs.append({"ship": shipEQ.match(line).group(1), "name": eqname})
 
             elif preparation.match(line):
                 for x in ships:
-                    eqs.append({"ship" : "{:02d}".format(int(x)), "name" : translate(preparation.match(line).group(1).replace("　#PSO", ""))})
+                    eqname = translate(preparation.match(line).group(1).replace("　#PSO", ""))
+
+                    if eqname.startswith(" "):
+                        eqs.append({"ship" : "{:02d}".format(int(x)), "name" : eqname[1:]})
+                    else:
+                        eqs.append({"ship": "{:02d}".format(int(x)), "name": eqname})
 
         jsTime = datetime.strptime(status.created_at, "%a %b %d %H:%M:%S %z %Y")
-        output.append({"time": jsTime.strftime("%Y-%m-%d %H:%M:%S"), "eqs": eqs})
+        output.append({"time": jsTime.strftime("%m-%d-%Y %H:%M:%S %z"), "eqs": eqs})
 
     return json.dumps(output, indent=4), {'Content-Type': 'application/json; charset=utf-8'}
 
