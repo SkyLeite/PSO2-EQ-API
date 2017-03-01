@@ -29,6 +29,16 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404), {'Content-Type': 'application/json; charset=utf-8'}
 
 
+@app.route('/enpatch/', methods=['GET'])
+def get_patch():
+    r = requests.get("http://psumods.co.uk/viewtopic.php?f=4&t=206")
+
+    pattern_en_patch = "<a href=\"([0-9a-zA-Z_\.\:\/]*)\" class=\"postlink\">This file</a>"
+    pattern_large_files = "<a href=\"([0-9a-zA-Z_\.\:\/]*)\" class=\"postlink\">Large files</a>"
+
+    return jsonify({"en_patch" : re.search(pattern_en_patch, r.text).groups(), "large_files" : re.search(pattern_large_files, r.text).groups()})
+
+
 @app.route('/eq/', methods=['GET'])
 def get_eq():
     args = request.args.get('ship')
