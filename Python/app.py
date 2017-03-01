@@ -43,7 +43,7 @@ def get_eq():
         ships = list(set(int(s) for s in args if s in whitelist))
 
     shipEQ = re.compile(r'(\d*):([^0-9-―(\[]+)')
-    preparation = re.compile(r'【開催中】\d*:\d*(.*)')
+    preparation = re.compile(r'【準備中】\d*:\d*(.*)')
     jst = re.compile(r'＜(\d*)時 緊急クエスト予告＞')
 
     statuses = api.GetUserTimeline(screen_name='pso2_emg_hour')
@@ -61,18 +61,18 @@ def get_eq():
                     eqname = translate(shipEQ.match(line).group(2).replace("　#PSO", ""))
 
                     if eqname.startswith(" "):
-                        eqs.append({"ship" : shipEQ.match(line).group(1), "name" : eqname[1:]})
+                        eqs.append({"ship" : int(shipEQ.match(line).group(1)), "name" : eqname[1:]})
                     else:
-                        eqs.append({"ship": shipEQ.match(line).group(1), "name": eqname})
+                        eqs.append({"ship": int(shipEQ.match(line).group(1)), "name": eqname})
 
             elif preparation.match(line):
                 for x in ships:
                     eqname = translate(preparation.match(line).group(1).replace("　#PSO", ""))
 
                     if eqname.startswith(" "):
-                        eqs.append({"ship" : "{:02d}".format(int(x)), "name" : eqname[1:]})
+                        eqs.append({"ship" : int(x), "name" : eqname[1:]})
                     else:
-                        eqs.append({"ship": "{:02d}".format(int(x)), "name": eqname})
+                        eqs.append({"ship": int(x), "name": eqname})
 
         jsTime = datetime.strptime(status.created_at, "%a %b %d %H:%M:%S %z %Y")
         output.append({"time": jsTime.strftime("%m-%d-%Y %H:%M:%S %z"), "eqs": eqs})
