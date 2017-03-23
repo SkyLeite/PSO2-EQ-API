@@ -40,50 +40,55 @@ def get_patch():
 
 
 @app.route('/eq/', methods=['GET'])
-def get_eq():
+def eq():
     args = request.args.get('ship')
     output = []
-    i = 0
 
     if args is None:
         ships = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     else:
         args = args.split(',')
-        whitelist = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-        ships = list(set(int(s) for s in args if s in whitelist))
+        ships = list(set(int(s) for s in args if s in [str(i) for i in range(1, 11)]))
 
+    future = re.compile(r'＜(\d\d)時 緊急クエスト予告＞\n(\d\d):\d\d\s(.*)　#PSO2')
+    future2 = re.compile(r'(\d*):\d*\s(.*)')
     shipEQ = re.compile(r'(\d*):([^0-9-―(\[]+)')
-    preparation = re.compile(r'【準備中】\d*:\d*(.*)')
+    preparation = re.compile(r'【準備中】\d*:\d*\s(.*)')
     jst = re.compile(r'＜(\d*)時 緊急クエスト予告＞')
 
     statuses = api.GetUserTimeline(screen_name='pso2_emg_hour')
 
     for status in statuses:
-        i += 1
         eqs = []
 
         for line in status.text.splitlines():
+            line = line.replace("　#PSO2", "")
+
             if jst.match(line):
                 jsTime = jst.match(line).group(1)
-
+            
             elif shipEQ.match(line):
                 if int(shipEQ.match(line).group(1)) in ships:
-                    eqname = translate(shipEQ.match(line).group(2).replace("　#PSO", ""))
+                    eqname = translate(shipEQ.match(line).group(2))
 
-                    if eqname.startswith(" "):
-                        eqs.append({"ship" : int(shipEQ.match(line).group(1)), "name" : eqname[1:]})
-                    else:
-                        eqs.append({"ship": int(shipEQ.match(line).group(1)), "name": eqname})
-
+                    eqs.append({"ship" : int(shipEQ.match(line).group(1)), "name" : eqname})
+            
             elif preparation.match(line):
                 for x in ships:
-                    eqname = translate(preparation.match(line).group(1).replace("　#PSO", ""))
+                    eqname = translate(preparation.match(line).group(1))
 
-                    if eqname.startswith(" "):
-                        eqs.append({"ship" : int(x), "name" : eqname[1:]})
-                    else:
-                        eqs.append({"ship": int(x), "name": eqname})
+                    eqs.append({"ship": int(x), "name": eqname})
+            
+            elif future2.match(line):
+                now = int(re.search(r'＜(\d\d)時 緊急クエスト予告＞', status.text).group(1))
+                futureTime = int(future2.match(line).group(1))
+                eqname = future2.match(line).group(2)
 
+                if futureTime - now == 1:
+                    eqs.append({"in_one_hour" : eqname})
+                elif futureTime - now == 2:
+                    eqs.append({"in_two_hours" : eqname})
+        
         jsTime = datetime.strptime(status.created_at, "%a %b %d %H:%M:%S %z %Y")
         output.append({"time": jsTime.strftime("%m-%d-%Y %H:%M:%S %z"), "eqs": eqs})
 
