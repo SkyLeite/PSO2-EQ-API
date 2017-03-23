@@ -3,6 +3,7 @@ import re
 from datetime import datetime
 
 import twitter
+import requests
 from flask import Flask, make_response, jsonify, request
 
 from settings import *
