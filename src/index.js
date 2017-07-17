@@ -14,7 +14,7 @@ const twitter = new Twitter({
 });
 
 const translate = async (string) => {
-    let file = JSON.parse(await fs.readFile('./eqs.json', 'utf-8'));
+    let file = JSON.parse(await fs.readFile('./src/eqs.json', 'utf-8'));
     return file[string] || string;
 }
 
