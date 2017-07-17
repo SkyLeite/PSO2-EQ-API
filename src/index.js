@@ -51,6 +51,7 @@ app.get('/eq', async (req, res) => {
                 .map(async item => {
                     return {
                         name: await translate(item[2].replace('\n', '').replace('　#PSO', '')),
+                        jpName: item[2].replace('\n', '').replace('　#PSO', ''),
                         ship: parseInt(item[1])
                     }
                 });
@@ -68,6 +69,7 @@ app.get('/eq', async (req, res) => {
             for (let ship of ships) {
                 dict.eqs.push({
                     name: eq,
+                    jpName: match[2].replace('　#PSO', ''),
                     ship: ship
                 });
             }
