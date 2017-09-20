@@ -26,6 +26,7 @@ RegExp.prototype.getMatches = function *(string) {
 }
 
 app.get('/eq', async (req, res) => {
+try {
     let result  = [];
     const ships = req.params.ships ? req.params.ships.split(',').filter((ship) => { return 1 <= ship <= 11 }) : _.range(1, 11);
     const tweets = (await twitter.get('statuses/user_timeline', { screen_name: 'pso2_emg_hour', count: 10 })).data;
@@ -79,6 +80,10 @@ app.get('/eq', async (req, res) => {
     }
 
     res.send(result);
+} catch (err) {
+	console.log(err);
+	res.status(500).send(err)
+}
 });
 
 app.get('/eq/scheduled', async (req, res) => {
