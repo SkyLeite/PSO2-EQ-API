@@ -9,7 +9,7 @@ API with the latest EQ information from [@pso2_emg_hour](http://twitter.com/pso2
 ```
 [
     {
-        time": "2017-08-29T01:05:04.000Z",
+        "time": "2017-08-29T01:05:04.000Z",
         "when": "2017-08-29T02:00:02.000Z",
         "eqs": [
             {

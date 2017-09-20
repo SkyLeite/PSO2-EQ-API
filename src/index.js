@@ -41,8 +41,8 @@ app.get('/eq', async (req, res) => {
     // Iterates over tweets and builds the result
     for (let tweet of tweets) {
         let dict = {
-            time: moment(tweet.created_at.substring(4), 'MMM DD HH:mm:ss ZZ YYYY').utcOffset('+0900').add(9, 'hours'),
-            when: moment(tweet.created_at.substring(4), 'MMM DD HH:mm:ss ZZ YYYY').add({ hours: 9 , minutes: 55}).subtract(2, 'seconds')
+            time: moment(tweet.created_at.substring(4), 'MMM DD HH:mm:ss ZZ YYYY').utcOffset('+0900'),
+            when: moment(tweet.created_at.substring(4), 'MMM DD HH:mm:ss ZZ YYYY').utcOffset('+0900').add(55, 'minutes')
         };
 
         // Checks if the Tweet contains unscheduled EQs
