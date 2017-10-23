@@ -4,6 +4,7 @@ import config from './settings.json';
 import _ from 'underscore';
 import moment from 'moment';
 import fs from 'mz/fs';
+require('moment-timezone');
 const app = Express();
 
 const twitter = new Twitter({
@@ -86,8 +87,26 @@ try {
 }
 });
 
-app.get('/eq/scheduled', async (req, res) => {
+app.get('/daily', async (req, res) => {
+    const now = moment().tz("Japan");
+    const result = [];
 
+    for (let eq of JSON.parse(await fs.readFile('./src/dos.json', 'utf8'))) {
+        const name = eq[0];
+        const startDate = moment(eq[1], 'YYYYMMDD').subtract(1, 'day');
+        const intervals = eq[2];
+
+        let i = 0;
+        while (startDate <= now) {
+            if (startDate.isSame(now, 'day')) {
+                result.push(name);
+            }
+
+            startDate.add(intervals[i++ % intervals.length], 'day');
+        }
+    }
+
+    res.send(result);
 });
 
 app.listen(5000, () => {

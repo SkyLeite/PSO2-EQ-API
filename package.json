@@ -20,6 +20,7 @@
   "dependencies": {
     "express": "^4.15.2",
     "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
     "mz": "^2.6.0",
     "twit": "^2.2.9",
     "underscore": "^1.8.3"
