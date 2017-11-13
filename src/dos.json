@@ -19,7 +19,11 @@
     ["Wolgahda Extermination (Featured Quest)", "2016-04-21", [21]],
     ["Dragon Suppression: Skyscape (Featured Quest)", "2016-04-22", [21]],
     ["Kuronite Suppression: Shironia (Featured Quest)", "2016-04-22", [21]],
+<<<<<<< HEAD
     ["Subdue Caterdra\"nsa (Featured Quest)", "2016-04-23", [21]],
+=======
+    ["Subdue Caterdra'nsa (Featured Quest)", "2016-04-23", [21]],
+>>>>>>> Luarst-patch-3
     ["Facility Survey (Featured Quest)", "2016-04-23", [21]],
     ["ARKS Search: Tundra (Featured Quest)", "2016-04-24", [21]],
     ["Subdue Sol Dirandal (Featured Quest)", "2016-04-24", [21]],
@@ -45,7 +49,11 @@
     ["Mech Power Survey: Desert (Featured Quest)", "2016-05-04", [21]],
     ["Subdue Za Oodan (Featured Quest)", "2016-05-05", [21]],
     ["Sanctum Suppression (Featured Quest)", "2016-05-05", [21]],
+<<<<<<< HEAD
     ["Subdue Caterdra\"n (Featured Quest)", "2016-05-06", [21]],
+=======
+    ["Subdue Caterdra'n (Featured Quest)", "2016-05-06", [21]],
+>>>>>>> Luarst-patch-3
     ["Lillipan Settlement Defense (Featured Quest)", "2016-05-06", [21]],
     ["Sample Collection: Skyscape (Featured Quest)", "2016-05-07", [21]],
     ["Coastal Conservation (Featured Quest)", "2016-05-07", [21]],
@@ -59,7 +67,11 @@
     ["Seabed Ecological Survey (Featured Quest)", "2016-05-11", [21]],
 
     ["Nab Rappy Capture (N)", "2016-09-07", [12, 60, 12, 9]],
+<<<<<<< HEAD
     ["Caterdra\"nsa (N)", "2016-03-10", [32, 61]],
+=======
+    ["Caterdra'nsa (N)", "2016-03-10", [32, 61]],
+>>>>>>> Luarst-patch-3
     ["Cargo Recovery: Desert (N)", "2016-05-01", [21, 17, 19, 12, 24]],
     ["Anjhadu-lili Demolition (N)", "2016-03-11", [23, 12, 21, 24, 13]],
     ["Subdue Rheo Madullard (N)", "2016-04-19", [26, 27, 4, 21, 15]],
@@ -76,10 +88,17 @@
     ["Marathon Training: Lillipa (N)", "2016-04-30", [21, 36, 36]],
 
     ["Rockbear (H)", "2016-09-21", [37, 56]],
+<<<<<<< HEAD
     ["Subdue Caterdra\"n (H)", "2016-10-29", [32, 27, 34]],
     ["Distress Signal Investigation (H)", "2016-02-08", [20, 7, 20, 7, 39]],
     ["Transformer Takedown (H)", "2016-07-31", [9, 24, 9, 15, 12, 24]],
     ["Subdue Caterdra\"nsa (H)", "2016-02-07", [7, 23, 7, 20, 7, 14, 15]],
+=======
+    ["Subdue Caterdra'n (H)", "2016-10-29", [32, 27, 34]],
+    ["Distress Signal Investigation (H)", "2016-02-08", [20, 7, 20, 7, 39]],
+    ["Transformer Takedown (H)", "2016-07-31", [9, 24, 9, 15, 12, 24]],
+    ["Subdue Caterdra'nsa (H)", "2016-02-07", [7, 23, 7, 20, 7, 14, 15]],
+>>>>>>> Luarst-patch-3
     ["Subdue Org Blan (H)", "2016-02-13", [27, 7, 3, 24, 14, 18]],
     ["Mobile Fortress Destruction (H)", "2016-04-13", [7, 11, 18, 7, 18, 32]],
     ["Defeat: Codotta Idetta (H)", "2016-09-29", [20, 7, 27, 9, 23, 7]],
@@ -99,7 +118,11 @@
     ["Zeshrayda (VH)", "2016-03-18", [93]],
     ["Goronzoran (VH)", "2016-08-09", [48, 45]],
     ["Dragon Ex (VH)", "2016-09-10", [18, 18, 57]],
+<<<<<<< HEAD
     ["Cave Exploration (VH)", "2016-05-09", [5, 46, 3, 39]],
+=======
+    ["Volcanic Caves Exploration (VH)", "2016-05-09", [5, 46, 3, 39]],
+>>>>>>> Luarst-patch-3
     ["ARKS Search: Tundra (VH)", "2016-05-06", [6, 54, 33]],
     ["Skyscape Exploration (VH)", "2016-02-12", [5, 49, 14, 25]],
     ["Polluter Destruction (VH)", "2016-02-15", [5, 49, 14, 25]],
@@ -136,7 +159,11 @@
     ["Train Ghidoran (SH)", "2016-06-26", [29, 25, 39]],
     ["Vegas Illusia (SH)", "2016-09-11", [30, 22, 8, 33]],
     ["Forest Exploration (SH)", "2014-09-27", [6, 3, 24, 27, 33]],
+<<<<<<< HEAD
     ["Caves Exploration (SH)", "2014-08-28", [48, 33, 3, 3, 6]],
+=======
+    ["Volcanic Caves Exploration (SH)", "2014-08-28", [48, 33, 3, 3, 6]],
+>>>>>>> Luarst-patch-3
     ["Desert Exploration (SH)", "2014-09-03", [3, 3, 15, 15, 57]],
     ["Tundra Exploration (SH)", "2014-08-31", [12, 6, 30, 15, 6, 24]],
     ["Tunnels Exploration (SH)", "2014-09-21", [21, 9, 6, 18, 39]],
