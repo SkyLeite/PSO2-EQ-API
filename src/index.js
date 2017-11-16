@@ -34,7 +34,8 @@ try {
 
     // Regexes
     const hour = /＜(\d*)時 緊急クエスト予告＞/;
-    const inPreparation = /【準備中】(\d*):\d*\s(.*)/g;
+    //const inPreparation = /【準備中】(\d*):\d*\s(.*)/g;
+    const inPreparation = /【開催間近】(\d*):\d*\s(.*)/g; //their change format
     const shipEQ = /(\d*):([^0-9-―(\[]+)/g;
 
     // EQs
