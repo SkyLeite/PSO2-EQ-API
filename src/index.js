@@ -34,7 +34,8 @@ try {
 
     // Regexes
     const hour = /＜(\d*)時 緊急クエスト予告＞/;
-    const inPreparation = /【開催間近】(\d*):\d*\s(.*)/g;
+    const inPreparation = /【準備中】(\d*):\d*\s(.*)/g;
+    const inPreparation1 = /【開催間近】(\d*):\d*\s(.*)/g;
     const shipEQ = /(\d*):([^0-9-―(\[]+)/g;
 
     // EQs
@@ -76,6 +77,22 @@ try {
                 });
             }
         }
+	    
+	// Check if the Tweet contains schedule EQ info (2)
+	 else if (tweet.text.match(inPreparation1)) {
+            let match = [...inPreparation1.getMatches(tweet.text)][0];
+            let hour = match[1];
+            let eq = await translate(match[2].replace('　#PSO', ''));
+
+            dict.eqs = [];
+            for (let ship of ships) {
+                dict.eqs.push({
+                    name: eq,
+                    jpName: match[2].replace('　#PSO', ''),
+                    ship: ship
+                });
+            }
+        }    
 
         if (dict.eqs) result.push(dict);
     }
