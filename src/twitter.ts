@@ -109,8 +109,8 @@ class Scraper {
         }
 
         return {
-            JP: jpDate.toString(),
-            UTC: jpDate.utc().toString(),
+            JP: jpDate.toISOString(),
+            UTC: jpDate.utc().toISOString(),
         }
     }
 
