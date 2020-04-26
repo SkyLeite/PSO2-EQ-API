@@ -3,6 +3,7 @@ import moment from "moment-timezone";
 import config from "./config";
 import { EventEmitter } from "tsee";
 import { promises as fs } from "fs";
+import fetch from "node-fetch";
 
 class Scraper {
 
@@ -16,12 +17,17 @@ class Scraper {
     };
 
     private cache?: string;
+    private translationData?: TranslationData;
     
-    private async getEQs(): Promise<Response> {
+    private async getLatestTweet(): Promise<Tweet> {
         const tweets = await this.twitter.get("statuses/user_timeline", { screen_name: "pso2_emg_hour", count: 1 });
         const data = tweets.data as Tweet[];
         const tweet = data[0];
 
+        return tweet;
+    }
+
+    private async getQuests(tweet: Tweet): Promise<Response> {
         const creation_date = this.parseTwitterDate(tweet.created_at);
 
         const inProgress = this.getInProgressQuest(tweet.created_at, tweet.text);
@@ -45,8 +51,31 @@ class Scraper {
         const name = match[2];
 
         return {
-            name,
+            name: this.translateQuest(name),
             hour: this.getHour(tweetDate, hour),
+        }
+    }
+
+    private async getTranslationData(): Promise<TranslationData> {
+        // Here we get translation data from the Github API. We don't use the eqs.json
+        // file directly as to not have to rebuild the container when the translation file
+        // is updated, thus guaranteeing maximum uptime.
+
+        const response = await fetch("https://raw.githubusercontent.com/RodrigoLeiteF/PSO2-EQ-API/master/src/eqs.json");
+        const data = await response.json();
+
+        return data;
+    }
+
+    private translateQuest(jp: string): string {
+        jp = jp.replace(/\[予告\]/g, ""); // Remove [Notice]
+        jp = jp.replace(/【開催中】/g, ""); // Remove [In Progress]
+        jp = jp.replace(/#PSO2/g, "");
+
+        if (this.translationData) {
+            return this.translationData[jp] || jp;
+        } else {
+            return jp;
         }
     }
 
@@ -59,7 +88,7 @@ class Scraper {
             let name = match[2];
 
             quests.push({
-                name,
+                name: this.translateQuest(name),
                 hour: this.getHour(tweetDate, hour),
             });
         }
@@ -83,12 +112,6 @@ class Scraper {
             JP: jpDate.toString(),
             UTC: jpDate.utc().toString(),
         }
-    }
-
-    private async findEQ(): Promise<Response> {
-        const response = await this.getEQs();
-
-        return response;
     }
 
     private async getCache(): Promise<string | undefined> {
@@ -115,13 +138,16 @@ class Scraper {
     }
 
     private async poll() {
-        const response = await this.findEQ();
+        const tweet = await this.getLatestTweet();
 
-        if (response.id !== await this.getCache()) {
+        if (tweet.id_str !== await this.getCache()) {
             console.log("New EQ! Let's tell everyone...");
 
-            this.eventEmitter.emit("alert", response);
-            await this.updateCache(response.id);
+            this.translationData = await this.getTranslationData();
+            const quests = await this.getQuests(tweet);
+
+            this.eventEmitter.emit("alert", quests);
+            await this.updateCache(quests.id);
         }
     }
 
@@ -156,5 +182,7 @@ type Quest = {
     name: string;
     hour: Date;
 }
+
+type TranslationData = { [key: string]: string };
 
 export default Scraper;
