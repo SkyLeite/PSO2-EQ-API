@@ -61,7 +61,7 @@ class Scraper {
         // file directly as to not have to rebuild the container when the translation file
         // is updated, thus guaranteeing maximum uptime.
 
-        const response = await fetch("https://raw.githubusercontent.com/RodrigoLeiteF/PSO2-EQ-API/master/src/eqs.json");
+        const response = await fetch("https://raw.githubusercontent.com/RodrigoLeiteF/PSO2-EQ-API/v2/src/eqs.json");
         const data = await response.json();
 
         return data;
