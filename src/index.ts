@@ -6,13 +6,12 @@ const server = new WebSocket.Server({
 });
 
 const scraper = new Scraper();
-
 scraper.startPolling();
 
-server.on("connection", () => {
+scraper.eventEmitter.on("alert", response => {
     server.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
-            client.send("New EQ! =O");
+            client.send(JSON.stringify(response));
         }
     })
 });
