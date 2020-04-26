@@ -47,12 +47,12 @@ class Scraper {
     private getInProgressQuest(tweetDate: string, text: string): Quest {
         const match = [ ...text.matchAll(this.patterns.upcoming) ][0];
 
-        const hour = parseInt(match[1], 10);
+        const date = parseInt(match[1], 10);
         const name = match[2];
 
         return {
             name: this.translateQuest(name),
-            hour: this.getHour(tweetDate, hour),
+            date: this.getDate(tweetDate, date),
         }
     }
 
@@ -84,12 +84,12 @@ class Scraper {
         const quests: Quest[] = [];
 
         for (let match of matches) {
-            let hour = parseInt(match[1], 10);
+            let date = parseInt(match[1], 10);
             let name = match[2];
 
             quests.push({
                 name: this.translateQuest(name),
-                hour: this.getHour(tweetDate, hour),
+                date: this.getDate(tweetDate, date),
             });
         }
 
@@ -100,7 +100,7 @@ class Scraper {
         return moment(text, "ddd MMM DD HH:mm:ss ZZ YYYY").utc();
     }
 
-    private getHour(tweetDate: string, hour: number): Date {
+    private getDate(tweetDate: string, hour: number): Date {
         const tweetMoment = this.parseTwitterDate(tweetDate);
         let jpDate = tweetMoment.tz("Asia/Tokyo");
 
@@ -180,7 +180,7 @@ type Response = {
 
 type Quest = {
     name: string;
-    hour: Date;
+    date: Date;
 }
 
 type TranslationData = { [key: string]: string };
