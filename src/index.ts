@@ -17,11 +17,27 @@ scraper.eventEmitter.on("alert", response => {
     })
 });
 
-server.on("connection", ws => {
-    console.log("Connected");
-    ws.on("message", message => {
-        if (message.toString().trim() == "ping") {
-            ws.send("Pong!");
-        }
+const interval = setInterval(function ping() {
+    server.clients.forEach(client => {
+        if ((client as CustomWebsocket).isAlive === false) return client.terminate();
+
+        (client as CustomWebsocket).isAlive = false;
+        client.ping();
+    });
+}, 3000);
+
+server.on("connection", client => {
+    (client as CustomWebsocket).isAlive = true;
+
+    client.on('pong', function () {
+        (this as CustomWebsocket).isAlive = true;
     });
 })
+
+server.on("close", () => {
+    clearInterval(interval);
+});
+
+interface CustomWebsocket extends WebSocket {
+    isAlive: boolean;
+}
