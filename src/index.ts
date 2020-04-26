@@ -1,8 +1,9 @@
 import * as WebSocket from "ws";
 import Scraper from "./twitter";
+import config from "./config";
 
 const server = new WebSocket.Server({
-    port: 8080
+    port: config.port,
 });
 
 const scraper = new Scraper();
