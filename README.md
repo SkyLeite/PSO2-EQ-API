@@ -1,6 +1,12 @@
+![Docker Automated build](https://img.shields.io/docker/automated/kaze404/pso2-eq-api)
+
 # PSO2 EQ API
 
 Websocket API with the latest EQ information from [@pso2_emg_hour](http://twitter.com/pso2_emg_hour). Used on [Weeb Bot](http://github.com/Kxze/WeebBot-v2).
+
+## Usage
+
+Simply establish a websocket connection to `ws://pso2api.westeurope.azurecontainer.io:8080` and wait for events :)
 
 ## Reference
 
@@ -45,3 +51,7 @@ Currently the API sends nothing but the following payload:
 `upcoming`: Array of upcoming emergency quests
 
 `inProgress`: Current in-progress emergency quest. Will be omitted if there is none.
+
+## Deploying
+
+This project is available on [Dockerhub](https://hub.docker.com/repository/docker/kaze404/pso2-eq-api). Running should be as simple as running `docker run kaze404/pso2-eq-api:latest -p 8080:8080`. The API will be available for usage on the port 8080.
