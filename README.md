@@ -1,29 +1,47 @@
 # PSO2 EQ API
 
-API with the latest EQ information from [@pso2_emg_hour](http://twitter.com/pso2_emg_hour). Used on [Weeb Bot](http://github.com/Kxze/WeebBot-v2).
+Websocket API with the latest EQ information from [@pso2_emg_hour](http://twitter.com/pso2_emg_hour). Used on [Weeb Bot](http://github.com/Kxze/WeebBot-v2).
 
 ## Reference
 
-- `/eq` - Returns every tweet on an array of objects. Response:
+Currently the API sends nothing but the following payload:
 
 ```
-[
-    {
-        "time": "2017-08-29T01:05:04.000Z",
-        "when": "2017-08-29T02:00:02.000Z",
-        "eqs": [
-            {
-                "name": "Phantom God of Creation",
-                "jpName": "新世を成す幻創の造神",
-                "ship": 1
-            }
-        ]
-    }
-]
-```
+{
+    "id": "1254411171907731457"
+    "date": {
+        "UTC": "Sun Apr 26 2020 14:05:03 GMT+0000",
+        "JP": "Sun Apr 26 2020 23:05:03 GMT+0900"
+    },
+    "upcoming": [
+        {
+            "date": {
+                "UTC": "Sun Apr 26 2020 14:05:03 GMT+0000",
+                "JP": "Sun Apr 26 2020 23:05:03 GMT+0900"
+            },
+            "name": "Mining Base Defense Training: VR"
+        },
+        {
+            "date": {
+                "UTC": "Sun Apr 26 2020 14:05:03 GMT+0000",
+                "JP": "Sun Apr26 2020 23:05:03 GMT+0900"
+            },
+            "name": "Raging Dark Arms"
+        },
+    ],
+    "inProgress": {
+        "date": {
+            "UTC": "Sun Apr 26 2020 14:05:03 GMT+0000",
+            "JP": "Sun Apr 26 2020 23:05:03 GMT+0900"
+        },
+        "name": "Mining Base Defense Training: VR"
+    },
+}```
 
-`time`: DateTime of when the Tweet was sent.
+`id`: Unique identifier for the payload
 
-`when`: DateTime of when the EQ is scheduled to happen.
+`date`: Date referring to the object it's attached to.
 
-`eqs`: Array of `eq` objects, containing the English name as `name`, japanese name as `jpName` and `ship` as the ship it's happening on.
+`upcoming`: Array of upcoming emergency quests
+
+`inProgress`: Current in-progress emergency quest. Will be omitted if there is none.
