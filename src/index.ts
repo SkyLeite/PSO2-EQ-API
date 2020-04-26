@@ -16,3 +16,12 @@ scraper.eventEmitter.on("alert", response => {
         }
     })
 });
+
+server.on("connection", ws => {
+    console.log("Connected");
+    ws.on("message", message => {
+        if (message.toString().trim() == "ping") {
+            ws.send("Pong!");
+        }
+    });
+})
