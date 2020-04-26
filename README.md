@@ -4,7 +4,7 @@
 
 Websocket API with the latest EQ information from [@pso2_emg_hour](http://twitter.com/pso2_emg_hour). Used on [Weeb Bot](http://github.com/Kxze/WeebBot-v2).
 
-## Usage
+## Using
 
 Simply establish a websocket connection to `ws://pso2api.westeurope.azurecontainer.io:8080` and wait for events :)
 
