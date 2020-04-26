@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "postinstall": "tsc",
-    "start": "node -r dotenv/config build"
+    "dev": "node -r dotenv/config build",
+    "start": "node build"
   },
   "author": "Rodrigo Leite",
   "license": "ISC",
