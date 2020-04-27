@@ -15,7 +15,7 @@ class Scraper {
     }>();
     private patterns = {
         upcoming: /^(\d+)時\s(.+)/gm,
-        inProgress: /【開催中】\d+(.+)/gm,
+        inProgress: /【開催中】(\d+)時\s(.+)/gm,
     };
 
     private cache?: string;
