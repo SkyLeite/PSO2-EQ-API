@@ -49,7 +49,7 @@ class Scraper {
     private getInProgressQuest(tweetDate: string, text: string): Quest | undefined {
         const match = [...text.matchAll(this.patterns.inProgress)][0];
 
-        if (!match) {
+        if (!match || match.length < 3) {
             return;
         }
 
@@ -122,9 +122,11 @@ class Scraper {
         const jpResult = addHours(jpDate, hoursToAdd);
         const utcResult = subHours(jpResult, 9); // Offset to UTC
 
-        const difference = formatDistance(jpResult, jpDate, {
+        let difference = formatDistance(jpResult, jpDate, {
             addSuffix: true
         });
+
+        difference = difference.charAt(0).toUpperCase() + difference.slice(1); // capitalize first letter
 
         return {
             JP: this.dateToISO(jpResult, timeZone),
