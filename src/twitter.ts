@@ -1,9 +1,11 @@
 import twit from "twit";
-import moment from "moment-timezone";
 import config from "./config";
 import { EventEmitter } from "tsee";
 import { promises as fs } from "fs";
 import fetch from "node-fetch";
+import { parse, addHours, subHours, formatDistance } from "date-fns";
+import { utcToZonedTime, format } from "date-fns-tz";
+
 
 class Scraper {
 
@@ -18,7 +20,7 @@ class Scraper {
 
     private cache?: string;
     private translationData?: TranslationData;
-    
+
     private async getLatestTweet(): Promise<Tweet> {
         const tweets = await this.twitter.get("statuses/user_timeline", { screen_name: "pso2_emg_hour", count: 1 });
         const data = tweets.data as Tweet[];
@@ -28,24 +30,28 @@ class Scraper {
     }
 
     private async getQuests(tweet: Tweet): Promise<Response> {
-        const creation_date = this.parseTwitterDate(tweet.created_at);
-
         const inProgress = this.getInProgressQuest(tweet.created_at, tweet.text);
         const upcoming = this.getUpcomingQuests(tweet.created_at, tweet.text);
 
-        return {
+        const result: Response = {
             id: tweet.id_str,
-            date: {
-                JP: creation_date.tz("Asia/Tokyo").toString(),
-                UTC: creation_date.utc().toString(),
-            },
-            inProgress,
+            date: this.getDate(tweet.created_at, 0),
             upcoming,
         }
+
+        if (inProgress) {
+            result.inProgress = inProgress;
+        }
+
+        return result;
     }
 
-    private getInProgressQuest(tweetDate: string, text: string): Quest {
-        const match = [ ...text.matchAll(this.patterns.upcoming) ][0];
+    private getInProgressQuest(tweetDate: string, text: string): Quest | undefined {
+        const match = [...text.matchAll(this.patterns.inProgress)][0];
+
+        if (!match) {
+            return;
+        }
 
         const date = parseInt(match[1], 10);
         const name = match[2];
@@ -87,30 +93,43 @@ class Scraper {
             let date = parseInt(match[1], 10);
             let name = match[2];
 
-            quests.push({
+            const result = {
                 name: this.translateQuest(name),
                 date: this.getDate(tweetDate, date),
-            });
+            };
+
+            quests.push(result);
         }
 
         return quests;
     }
 
-    private parseTwitterDate(text: string): moment.Moment {
-        return moment(text, "ddd MMM DD HH:mm:ss ZZ YYYY").utc();
+    private parseTwitterDate(text: string): Date {
+        return parse(text, "EEE MMM dd HH:mm:ss xxxx yyyy", new Date());
     }
 
-    private getDate(tweetDate: string, hour: number): Date {
-        const tweetMoment = this.parseTwitterDate(tweetDate);
-        let jpDate = tweetMoment.tz("Asia/Tokyo");
+    private dateToISO(date: Date, timeZone: string): string {
+        return format(date, "yyyy-MM-dd'T'HH:mm:ssxx", { timeZone });
+    }
 
-        if (hour > tweetMoment.get("hour")) {
-            jpDate = jpDate.add(1, "day");
-        }
+    private getDate(tweetDate: string, hour: number): ApiDate {
+        const timeZone = "Asia/Tokyo"; 
+        const tweetMoment = this.parseTwitterDate(tweetDate);
+        // const utcDate = zonedTimeToUtc(tweetMoment, Intl.DateTimeFormat().resolvedOptions().timeZone);
+        const jpDate = utcToZonedTime(tweetMoment, timeZone, { timeZone });
+
+        const hoursToAdd = hour - jpDate.getHours();
+        const jpResult = addHours(jpDate, hoursToAdd);
+        const utcResult = subHours(jpResult, 9); // Offset to UTC
+
+        const difference = formatDistance(jpResult, jpDate, {
+            addSuffix: true
+        });
 
         return {
-            JP: jpDate.toISOString(),
-            UTC: jpDate.utc().toISOString(),
+            JP: this.dateToISO(jpResult, timeZone),
+            UTC: this.dateToISO(utcResult, "Etc/UTC"),
+            difference, 
         }
     }
 
@@ -158,9 +177,10 @@ class Scraper {
 
 }
 
-type Date = {
+type ApiDate = {
     JP: string;
     UTC: string;
+    difference: string;
 }
 
 type Tweet = {
@@ -173,14 +193,14 @@ type Tweet = {
 
 type Response = {
     id: string,
-    date: Date,
+    date: ApiDate,
     inProgress?: Quest,
     upcoming: Quest[]
 }
 
 type Quest = {
     name: string;
-    date: Date;
+    date: ApiDate;
 }
 
 type TranslationData = { [key: string]: string };
