@@ -11,4 +11,4 @@ scraper.eventEmitter.on("alert", response => {
     server.emit("quest", response);
 });
 
-server.listen(8080)
+server.listen(config.port)
