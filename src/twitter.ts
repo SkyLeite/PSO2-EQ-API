@@ -3,7 +3,7 @@ import config from "./config";
 import { EventEmitter } from "tsee";
 import { promises as fs } from "fs";
 import fetch from "node-fetch";
-import { parse, addHours, subHours, formatDistance, getHours, addDays } from "date-fns";
+import { parse, addHours, subHours, formatDistance, getHours, addDays, isAfter } from "date-fns";
 import { utcToZonedTime, format } from "date-fns-tz";
 import { promisify } from "util";
 import redis from "redis";
@@ -123,12 +123,13 @@ class Scraper {
         const timeZone = "Asia/Tokyo"; 
         const tweetMoment = this.parseTwitterDate(tweetDate);
         let jpDate = utcToZonedTime(tweetMoment, timeZone, { timeZone });
-        const isAhead = hour < getHours(jpDate);
 
         const hoursToAdd = hour - jpDate.getHours();
         let jpResult = addHours(jpDate, hoursToAdd);
         let utcResult = subHours(jpResult, 9); // Offset to UTC
         let difference;
+
+        const isAhead = isAfter(jpResult, jpDate);
 
         if (isAhead) {
             jpResult = addDays(jpResult, 1);
