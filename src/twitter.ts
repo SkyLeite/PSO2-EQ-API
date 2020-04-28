@@ -122,7 +122,6 @@ class Scraper {
     private getDate(tweetDate: string, hour: number): ApiDate {
         const timeZone = "Asia/Tokyo"; 
         const tweetMoment = this.parseTwitterDate(tweetDate);
-        // const utcDate = zonedTimeToUtc(tweetMoment, Intl.DateTimeFormat().resolvedOptions().timeZone);
         let jpDate = utcToZonedTime(tweetMoment, timeZone, { timeZone });
         const isAhead = hour < getHours(jpDate);
 
