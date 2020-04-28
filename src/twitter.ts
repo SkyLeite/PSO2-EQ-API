@@ -84,6 +84,7 @@ class Scraper {
         jp = jp.replace(/\[予告\]/g, ""); // Remove [Notice]
         jp = jp.replace(/【開催中】/g, ""); // Remove [In Progress]
         jp = jp.replace(/#PSO2/g, "");
+        jp = jp.trim();
 
         if (this.translationData) {
             return this.translationData[jp] || jp;
