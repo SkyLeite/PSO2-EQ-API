@@ -5,7 +5,8 @@ import { promises as fs } from "fs";
 import fetch from "node-fetch";
 import { parse, addHours, subHours, formatDistance } from "date-fns";
 import { utcToZonedTime, format } from "date-fns-tz";
-
+import { promisify } from "util";
+import redis from "redis";
 
 class Scraper {
 
@@ -18,7 +19,13 @@ class Scraper {
         inProgress: /【開催中】(\d+)時\s(.+)/gm,
     };
 
-    private cache?: string;
+    private redisClient = redis.createClient({
+        host: config.redis.host,
+        port: config.redis.port,
+    });
+
+    private getAsync = promisify(this.redisClient.get).bind(this.redisClient);
+    private setAsync = promisify(this.redisClient.set).bind(this.redisClient);
     private translationData?: TranslationData;
 
     private async getLatestTweet(): Promise<Tweet> {
@@ -136,26 +143,13 @@ class Scraper {
     }
 
     private async getCache(): Promise<string | undefined> {
-        try {
-            if (!this.cache) {
-                this.cache = await fs.readFile("cache", "utf8");
-            }
-        } catch (err) {
-            if (err.code === "ENOENT") {
-                this.cache = undefined;
-            } else {
-                throw err;
-            }
-        }
-
-        return this.cache;
+        return this.getAsync("eq");
     }
 
     private async updateCache(data: string) {
         console.log(`Updating cache with ID ${data}`);
 
-        this.cache = data;
-        await fs.writeFile("cache", data);
+        return this.setAsync("eq", data);
     }
 
     private async poll() {

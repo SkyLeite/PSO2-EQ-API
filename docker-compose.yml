@@ -7,3 +7,5 @@ services:
       - "8080:8080"
     expose:
       - "8080"
+  redis:
+    image: "redis:alpine"
