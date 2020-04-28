@@ -130,10 +130,13 @@ class Scraper {
         let utcResult = subHours(jpResult, 9); // Offset to UTC
         let difference;
 
+        if (hour < jpDate.getHours()) {
+            jpResult = addDays(jpResult, 1);
+        }
+
         const isAhead = isAfter(jpResult, jpDate);
 
         if (isAhead) {
-            jpResult = addDays(jpResult, 1);
             difference = formatDistance(jpResult, jpDate, {
                 addSuffix: true
             });
