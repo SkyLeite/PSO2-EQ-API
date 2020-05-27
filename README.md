@@ -42,7 +42,8 @@ Currently the API sends nothing but the following payload:
         },
         "name": "Mining Base Defense Training: VR"
     },
-}```
+}
+```
 
 `id`: Unique identifier for the payload
 
