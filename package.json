@@ -19,7 +19,7 @@
     "date-fns": "^2.12.0",
     "date-fns-tz": "^1.0.10",
     "dotenv": "^8.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "node-fetch": "^2.6.0",
     "redis": "^3.0.2",
     "socket.io": "^2.4.0",
