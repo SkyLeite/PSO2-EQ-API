@@ -22,7 +22,7 @@
     "moment": "^2.24.0",
     "node-fetch": "^2.6.0",
     "redis": "^3.0.2",
-    "socket.io": "^2.4.0",
+    "socket.io": "^2.5.0",
     "tsee": "^1.3.0",
     "twit": "^2.2.11",
     "typescript": "^3.8.3"
